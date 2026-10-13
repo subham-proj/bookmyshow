@@ -1,0 +1,40 @@
+server:
+  port: 8081          # user-service runs on its own port; change if it clashes
+
+spring:
+  application:
+    name: user-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bms_user_db
+    username: bms_user
+    password: bms_pass
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      # Auto-create/update tables from @Entity classes. Great for dev.
+      # TODO: switch to 'validate' (and add Flyway migrations) before production.
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    # Log the SQL Hibernate runs — handy while scaffolding; turn off later.
+    show-sql: true
+
+# JWT settings. The secret signs/verifies tokens — it must be long enough
+# (>= 32 chars for HS256). TODO: move this out of the file (env var) for prod;
+# the gateway will later need this same secret to validate tokens.
+app:
+  jwt:
+    secret: "change-me-this-is-a-dev-only-secret-key-at-least-32-bytes-long"
+    expiration-ms: 1800000   # 30 minutes
+
+# Expose basic actuator endpoints for local health checks:
+#   GET http://localhost:8081/actuator/health
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
