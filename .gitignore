@@ -39,3 +39,6 @@ build/
 
 ##claude##
 .claude
+
+### Local secrets / config (keep out of git) ###
+**/src/main/resources/application.properties
