@@ -1,11 +1,12 @@
-package org.subhamsingh.service;
+package org.subhamsingh.eventservice.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.subhamsingh.dto.CreateEventRequest;
-import org.subhamsingh.dto.EventResponse;
-import org.subhamsingh.entity.Event;
-import org.subhamsingh.repository.EventRepository;
+import org.subhamsingh.eventservice.dto.CreateEventRequest;
+import org.subhamsingh.eventservice.dto.EventResponse;
+import org.subhamsingh.eventservice.entity.Event;
+import org.subhamsingh.eventservice.exception.ResourceNotFoundException;
+import org.subhamsingh.eventservice.repository.EventRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class EventServiceImpl implements EventService {
                 .eventName(req.eventName())
                 .organizerId(req.organizerId())
                 .startTime(req.startTime())
-                .duration(req.duration())
+                .endTime(req.endTime())
                 .venue(req.venue())
                 .eventType(req.eventType())
                 .build();
@@ -33,7 +34,8 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional(readOnly = true)
     public EventResponse getEventById(Long eventId) {
-        Event event = eventRepository.findById(eventId).orElseThrow();
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new ResourceNotFoundException("Event not found with id: " + eventId));
         return EventResponse.from(event);
     }
 

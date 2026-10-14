@@ -1,20 +1,19 @@
-package org.subhamsingh.dto;
+package org.subhamsingh.eventservice.dto;
 
 
-import org.subhamsingh.entity.Event;
+import org.subhamsingh.eventservice.entity.Event;
 
 import java.time.Instant;
 
 /**
- * Outbound view of event
- * */
-
+ * Outbound view of event.
+ */
 public record EventResponse(
         Long eventId,
         String eventName,
         Long organizerId,
         Instant startTime,
-        Long duration,
+        Instant endTime,
         String venue,
         String eventType,
         Instant createdAt
@@ -26,7 +25,7 @@ public record EventResponse(
                 event.getEventName(),
                 event.getOrganizerId(),
                 event.getStartTime(),
-                event.getDuration(),
+                event.getEndTime(),
                 event.getVenue(),
                 event.getEventType(),
                 event.getCreatedAt()

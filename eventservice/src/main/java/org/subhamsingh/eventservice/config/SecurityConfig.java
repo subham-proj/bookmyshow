@@ -1,4 +1,4 @@
-package org.subhamsingh.config;
+package org.subhamsingh.eventservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

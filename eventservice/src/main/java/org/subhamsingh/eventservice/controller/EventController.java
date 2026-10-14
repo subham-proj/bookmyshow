@@ -1,13 +1,13 @@
-package org.subhamsingh.controller;
+package org.subhamsingh.eventservice.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.subhamsingh.dto.CreateEventRequest;
-import org.subhamsingh.dto.EventResponse;
-import org.subhamsingh.service.EventService;
+import org.subhamsingh.eventservice.dto.CreateEventRequest;
+import org.subhamsingh.eventservice.dto.EventResponse;
+import org.subhamsingh.eventservice.service.EventService;
 
 import java.util.List;
 

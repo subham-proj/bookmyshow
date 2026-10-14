@@ -1,4 +1,4 @@
-package org.subhamsingh.entity;
+package org.subhamsingh.eventservice.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,8 +28,8 @@ public class Event {
     @Column(name = "start_time", nullable = false)
     private Instant startTime;
 
-    @Column(name = "duration", nullable = false)
-    private Long duration;
+    @Column(name = "end_time", nullable = false)
+    private Instant endTime;
 
     @Column(name = "venue", nullable = false)
     private String venue;

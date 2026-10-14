@@ -1,4 +1,4 @@
-package org.subhamsingh;
+package org.subhamsingh.eventservice;
 
 
 import org.springframework.boot.SpringApplication;

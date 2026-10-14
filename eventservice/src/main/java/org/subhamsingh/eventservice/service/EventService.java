@@ -1,7 +1,7 @@
-package org.subhamsingh.service;
+package org.subhamsingh.eventservice.service;
 
-import org.subhamsingh.dto.CreateEventRequest;
-import org.subhamsingh.dto.EventResponse;
+import org.subhamsingh.eventservice.dto.CreateEventRequest;
+import org.subhamsingh.eventservice.dto.EventResponse;
 
 import java.util.List;
 
