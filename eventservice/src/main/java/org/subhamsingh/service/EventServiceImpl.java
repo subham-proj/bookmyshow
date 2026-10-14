@@ -21,6 +21,7 @@ public class EventServiceImpl implements EventService {
         Event event = Event.builder()
                 .eventName(req.eventName())
                 .organizerId(req.organizerId())
+                .startTime(req.startTime())
                 .duration(req.duration())
                 .venue(req.venue())
                 .eventType(req.eventType())
