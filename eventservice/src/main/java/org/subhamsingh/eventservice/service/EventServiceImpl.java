@@ -6,6 +6,7 @@ import org.subhamsingh.eventservice.dto.CreateEventRequest;
 import org.subhamsingh.eventservice.dto.EventResponse;
 import org.subhamsingh.eventservice.entity.Event;
 import org.subhamsingh.eventservice.exception.ResourceNotFoundException;
+import org.subhamsingh.eventservice.outbox.OutboxWriter;
 import org.subhamsingh.eventservice.repository.EventRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
+    private final OutboxWriter outboxWriter;
 
     @Override
     @Transactional
@@ -28,7 +30,9 @@ public class EventServiceImpl implements EventService {
                 .eventType(req.eventType())
                 .build();
 
-        return EventResponse.from(eventRepository.save(event));
+        EventResponse response = EventResponse.from(eventRepository.save(event));
+        outboxWriter.addToOutbox(event);
+        return response;
     }
 
     @Override
