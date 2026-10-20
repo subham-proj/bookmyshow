@@ -1,6 +1,8 @@
 package org.subhamsingh.eventservice.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.subhamsingh.eventservice.dto.CreateEventRequest;
 import org.subhamsingh.eventservice.dto.EventResponse;
@@ -36,7 +38,29 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
+    @CacheEvict(cacheNames = "events", key = "#eventId")   // drop stale cache entry
+    public EventResponse updateEvent(Long eventId, CreateEventRequest req) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new ResourceNotFoundException("Event not found with id: " + eventId));
+
+        event.setEventName(req.eventName());
+        event.setOrganizerId(req.organizerId());
+        event.setStartTime(req.startTime());
+        event.setEndTime(req.endTime());
+        event.setVenue(req.venue());
+        event.setEventType(req.eventType());
+
+        EventResponse response = EventResponse.from(eventRepository.save(event));
+        // re-publish so the search index (ES) reflects the update too
+        outboxWriter.addToOutbox(event);
+        return response;
+    }
+
+    // Cached in Redis under key "events::{eventId}" for 1h; evicted on update above.
+    @Override
     @Transactional(readOnly = true)
+    @Cacheable(cacheNames = "events", key = "#eventId")
     public EventResponse getEventById(Long eventId) {
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new ResourceNotFoundException("Event not found with id: " + eventId));

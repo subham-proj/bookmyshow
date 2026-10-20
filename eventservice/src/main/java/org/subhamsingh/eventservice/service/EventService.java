@@ -9,6 +9,8 @@ public interface EventService {
 
     EventResponse createEvent(CreateEventRequest req);
 
+    EventResponse updateEvent(Long eventId, CreateEventRequest req);
+
     EventResponse getEventById(Long eventId);
 
     List<EventResponse> getAllEvents();

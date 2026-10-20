@@ -23,6 +23,12 @@ public class EventController {
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
+    @PutMapping("/{eventId}")
+    public ResponseEntity<EventResponse> updateEvent(@PathVariable("eventId") Long eventId,
+                                                     @Valid @RequestBody CreateEventRequest req) {
+        return ResponseEntity.ok(eventService.updateEvent(eventId, req));
+    }
+
     @GetMapping("/{eventId}")
     public ResponseEntity<EventResponse> getEventById(@PathVariable("eventId") Long eventId) {
         return ResponseEntity.ok(eventService.getEventById(eventId));
