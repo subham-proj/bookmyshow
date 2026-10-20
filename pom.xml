@@ -12,6 +12,7 @@
     <modules>
         <module>user-service</module>
         <module>eventservice</module>
+        <module>searchservice</module>
     </modules>
 
     <properties>

@@ -18,8 +18,4 @@ public interface OutboxRepository extends JpaRepository<Outbox, Long> {
     @QueryHints(@QueryHint(name = "jakarta.persistence.lock.timeout", value = "-2")) // SKIP LOCKED
     @Query("select o from Outbox o where o.publishedAt is null order by o.id asc")
     List<Outbox> findUnpublished(Pageable pageable);
-
-    @Modifying
-    @Query("update Outbox o set o.publishedAt = :now where o.id = :id")
-    void markPublished(@Param("id") Long id, @Param("now")Instant now);
 }
